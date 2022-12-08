@@ -7,9 +7,14 @@ export default function ShowTimes(props){
             <section>
                 <h3>Quinta-Feira - 24/06/2021</h3>
                 <SessionsContainer>
-                    <div>
-                        <p>15:00</p>
-                    </div>
+                    <div>15:00</div>
+                    <div> 15:00</div>
+                </SessionsContainer>
+            </section>
+            <section>
+                <h3>Quinta-Feira - 24/06/2021</h3>
+                <SessionsContainer>
+                    <div>15:00</div>
                     <div> 15:00</div>
                 </SessionsContainer>
             </section>
@@ -42,8 +47,8 @@ const SessionsContainer = styled.div`
         color: #FFFFFF;
         margin: 0 16px 16px 0;
         border-radius: 4px;
-        >p{
-            margin: 0  auto;
-        }
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 `
