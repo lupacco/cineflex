@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import axios from "axios";
+import { useEffect, useState } from "react";
+import GlobalStyle from "./components/GlobalStyle";
+import Header from "./components/Header"
+import Movies from "./components/Movies";
+import {BrowserRouter, Route, Routes, Link} from "react-router-dom"
+import ShowTimes from "./components/ShowTImes";
 
-function App() {
+
+
+export default function App() {
+  const [movies, setMovies] = useState([])
+
+  useEffect(() => {
+    let resMovies = axios.get('https://mock-api.driven.com.br/api/v8/cineflex/movies')
+    resMovies.then(response => {
+      setMovies(response.data)
+    })
+    resMovies.catch(err => console.log(err))
+  })
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+        <GlobalStyle/>
+
+        <Header/>
+        <Routes>
+          <Route path="/" element={<Movies movies={movies}/>}/>
+          <Route path="/section" element={<ShowTimes/>}/>
+        </Routes>
+      
+    </BrowserRouter>
   );
 }
 
-export default App;
+
