@@ -1,46 +1,43 @@
 import axios from "axios"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
 import styled from "styled-components"
 
 export default function ShowTimes(props){
-    const {selectedMovie, selectedMovieST, setSelectedMovieST} = props
+    const {idMovie} = useParams()
+    const [movieInfo, setMovieInfo] = useState([])
+
+    const movieTimeURL = `https://mock-api.driven.com.br/api/v8/cineflex/movies/${idMovie}/showtimes`
+
 
     useEffect(() => {
-        let apiURL = `https://mock-api.driven.com.br/api/v8/cineflex/movies/${selectedMovie.id}/showtimes`
-        console.log(apiURL)
-        axios.get(apiURL)
+        console.log(movieTimeURL)
+        axios.get(movieTimeURL)
         .then(response => {
             console.log('resposta')
-            console.log(response.data.days)
-            setSelectedMovieST(response.data.days)
+            console.log(response.data)
+            
         })
         .catch(err => {console.log(err)})
     },[])
 
-    if(selectedMovieST){
-        return(
-            <>
-                <ShowTimesContainer>
-                <h2>Selecione o filme</h2>
-                    {
-                        selectedMovieST.map(day => {
-                            <SessionDay>
-                                <h3>Quinta-Feira - 24/06/2021</h3>
-                                    <SessionsContainer>
-                                        <div>15:00</div>
-                                        <div> 15:00</div>
-                                </SessionsContainer>
-                            </SessionDay>
-                        })
-                    }
-                    
-                </ShowTimesContainer>
-            </>
-            )
-    }else{
-        return(<div>Carregando...</div>)
-    }
+    return(
+        <>
+            <ShowTimesContainer>
+            <h2>Selecione o filme</h2>
 
+                <SessionDay>
+                    <h3>Quinta-Feira - 24/06/2021</h3>
+                        <SessionsContainer>
+                            <div>15:00</div>
+                            <div> 15:00</div>
+                    </SessionsContainer>
+                </SessionDay>
+                
+                
+            </ShowTimesContainer>
+        </>
+    )
 }
 
 const ShowTimesContainer = styled.div`
