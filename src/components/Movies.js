@@ -10,7 +10,7 @@ export default function Movies(props){
                 {
                 movies.map(movie => {
                     return(
-                        <Movie movie={movie}/>
+                        <Movie key={movie.id} movie={movie}/>
                     )
                 })
                 }
@@ -28,8 +28,11 @@ const MoviesContainer = styled.main`
         font-size: 24px;
     }
     >section{
-        display: flex;
-        flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px 32px;
+        align-items: center;
+        justify-content: center;
         overflow-y: scroll;
     }
 `
