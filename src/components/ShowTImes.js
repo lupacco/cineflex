@@ -1,25 +1,46 @@
+import axios from "axios"
+import { useEffect } from "react"
 import styled from "styled-components"
 
 export default function ShowTimes(props){
-    return(
-        <ShowTimesContainer>
-            <h2>Selecione o filme</h2>
-            <section>
-                <h3>Quinta-Feira - 24/06/2021</h3>
-                <SessionsContainer>
-                    <div>15:00</div>
-                    <div> 15:00</div>
-                </SessionsContainer>
-            </section>
-            <section>
-                <h3>Quinta-Feira - 24/06/2021</h3>
-                <SessionsContainer>
-                    <div>15:00</div>
-                    <div> 15:00</div>
-                </SessionsContainer>
-            </section>
-        </ShowTimesContainer>
-    )
+    const {selectedMovie, selectedMovieST, setSelectedMovieST} = props
+
+    useEffect(() => {
+        let apiURL = `https://mock-api.driven.com.br/api/v8/cineflex/movies/${selectedMovie.id}/showtimes`
+        console.log(apiURL)
+        axios.get(apiURL)
+        .then(response => {
+            console.log('resposta')
+            console.log(response.data.days)
+            setSelectedMovieST(response.data.days)
+        })
+        .catch(err => {console.log(err)})
+    },[])
+
+    if(selectedMovieST){
+        return(
+            <>
+                <ShowTimesContainer>
+                <h2>Selecione o filme</h2>
+                    {
+                        selectedMovieST.map(day => {
+                            <SessionDay>
+                                <h3>Quinta-Feira - 24/06/2021</h3>
+                                    <SessionsContainer>
+                                        <div>15:00</div>
+                                        <div> 15:00</div>
+                                </SessionsContainer>
+                            </SessionDay>
+                        })
+                    }
+                    
+                </ShowTimesContainer>
+            </>
+            )
+    }else{
+        return(<div>Carregando...</div>)
+    }
+
 }
 
 const ShowTimesContainer = styled.div`
@@ -30,11 +51,13 @@ const ShowTimesContainer = styled.div`
         text-align: center;
         font-size: 24px;
     }
-    >section{
-        margin: 0 32px;
-        >h3{
-            margin-bottom: 32px;
-        }
+    
+`
+
+const SessionDay = styled.section`
+    margin: 0 32px;
+    >h3{
+        margin-bottom: 32px;
     }
 `
 

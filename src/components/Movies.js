@@ -1,8 +1,20 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
 import styled from "styled-components"
 import Movie from "./Movie"
 
-export default function Movies(props){
-    const { movies } = props
+export default function Movies(){
+    const moviesURL = 'https://mock-api.driven.com.br/api/v8/cineflex/movies'
+
+    const [movies, setMovies] = useState([])
+
+    useEffect(() => {
+        let resMovies = axios.get(moviesURL)
+        resMovies.then(response => {
+          setMovies(response.data)
+        })
+        resMovies.catch(err => console.log(err))
+      }, [])
     return (
         <MoviesContainer>
             <h2>Selecione o filme</h2>
@@ -10,7 +22,10 @@ export default function Movies(props){
                 {
                 movies.map(movie => {
                     return(
-                        <Movie movie={movie}/>
+                        <Movie 
+                        key={movie.id}
+                        movie={movie}
+                        />
                     )
                 })
                 }
