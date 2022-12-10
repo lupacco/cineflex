@@ -3,11 +3,11 @@ import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import styled from "styled-components"
 
-export default function ChooseAssent(){
+export default function ChooseAssent(props){
     const {idSession} = useParams()
     const assentsURL = `
     https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSession}/seats`
-    const [assents, setAssents] = useState([])
+    const {assents, setAssents} = props
     let assentsArrived = !(assents[0] === undefined)
 
     const navigate = useNavigate()

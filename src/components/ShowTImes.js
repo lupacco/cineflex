@@ -6,7 +6,7 @@ import { Link } from "react-router-dom"
 
 export default function ShowTimes(props){
     const {idMovie} = useParams()
-    const [movieInfo, setMovieInfo] = useState(undefined)
+    const {movieInfo, setMovieInfo} = props
 
     let movieInfoArrived = !(movieInfo === undefined)
 
@@ -17,8 +17,6 @@ export default function ShowTimes(props){
         axios.get(movieTimeURL)
         .then(response => {
             setMovieInfo(response.data)
-            console.log(response.data)
-            
         })
         .catch(err => {console.log(err)})
     },[])

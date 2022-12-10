@@ -1,12 +1,16 @@
+import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
 
-export default function SuccessScreen(){
+export default function SuccessScreen(props){
+    const navigate = useNavigate()
+    const {movieInfo} = props
+    console.log(movieInfo)
     return (
         <SucessContainer>
             <h2>Pedido feito com sucesso!</h2>
             <section>
                 <h3>Filme e sessão</h3>
-                <p>Título</p>
+                <p>{movieInfo.title}</p>
                 <p>Horário</p>
             </section>
             <section>
@@ -20,7 +24,7 @@ export default function SuccessScreen(){
                 <p>Nome:</p>
                 <p>CPF:</p>
             </section>
-            <button type="submit">Reservar assento(s)</button>
+            <button onClick={() => {navigate("/")}} type="submit">Voltar para Home</button>
         </SucessContainer>
     )
 }

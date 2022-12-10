@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import GlobalStyle from "./components/GlobalStyle";
 
 import Header from "./components/Header"
@@ -10,6 +10,8 @@ import ChooseAssent from "./components/ChooseAssent";
 import SuccessScreen from "./components/SuccessScreen";
 
 export default function App() {
+  const [movieInfo, setMovieInfo] = useState(undefined)
+  const [assents, setAssents] = useState([])
 
   return (
     <BrowserRouter>
@@ -19,9 +21,17 @@ export default function App() {
         <Header/>
         <Routes>
           <Route path="/" element={<Home/>}/>
-          <Route path="/sessoes/:idMovie" element={<ShowTimes/>}/>
-          <Route path="/assentos/:idSession" element={<ChooseAssent/>}/>
-          <Route path="/sucesso" element={<SuccessScreen/>}/>
+          <Route path="/sessoes/:idMovie" element={<ShowTimes
+            movieInfo={movieInfo}
+            setMovieInfo={setMovieInfo}
+          />}/>
+          <Route path="/assentos/:idSession" element={<ChooseAssent
+            assents={assents}
+            setAssents={setAssents}
+          />}/>
+          <Route path="/sucesso" element={<SuccessScreen
+            movieInfo={movieInfo}
+          />}/>
         </Routes>
       
     </BrowserRouter>
