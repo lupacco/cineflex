@@ -7,6 +7,7 @@ import {BrowserRouter, Route, Routes, Link} from "react-router-dom"
 
 import ShowTimes from "./components/ShowTImes";
 import ChooseAssent from "./components/ChooseAssent";
+import SuccessScreen from "./components/SuccessScreen";
 
 export default function App() {
 
@@ -20,6 +21,7 @@ export default function App() {
           <Route path="/" element={<Home/>}/>
           <Route path="/sessoes/:idMovie" element={<ShowTimes/>}/>
           <Route path="/assentos/:idSession" element={<ChooseAssent/>}/>
+          <Route path="/sucesso" element={<SuccessScreen/>}/>
         </Routes>
       
     </BrowserRouter>

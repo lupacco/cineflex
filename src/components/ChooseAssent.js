@@ -1,6 +1,6 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import styled from "styled-components"
 
 export default function ChooseAssent(){
@@ -10,7 +10,10 @@ export default function ChooseAssent(){
     const [assents, setAssents] = useState([])
     let assentsArrived = !(assents[0] === undefined)
 
+    const navigate = useNavigate()
+
     useEffect(() => {
+        //rescure assent objects from API
         axios.get(assentsURL)
         .then(response => {
             console.log(response.data.seats)
@@ -18,6 +21,12 @@ export default function ChooseAssent(){
         })
         .catch(err => {console.log(err)})
     },[])
+
+    function makeReserve(event){
+        event.preventDefault()
+        console.log("submiteddddd")
+        navigate("/sucesso")
+    }
 
     return(
         <>
@@ -27,13 +36,12 @@ export default function ChooseAssent(){
                     {assentsArrived ? (
                         assents.map(assent => {
                             return (
-                                <div>
-                                    <Assent
-                                        selected={assent.isAvailable}
+                                <Assent
+                                    key={assent.id}
+                                    selected={assent.isAvailable}
                                     >
                                         {assent.name}
-                                    </Assent>
-                                </div>
+                                </Assent>
                             )
                         })
                     ) : (
@@ -42,20 +50,30 @@ export default function ChooseAssent(){
                 </AllAssents>
                 <AssentsInfoContainer>
                         <div>
-                            <div class="assent selected"></div>
+                            <div className="assent selected"></div>
                             <p>Selecionado</p>
                         </div>
                         <div>
-                            <div class="assent"></div>
+                            <div className="assent"></div>
                             <p>Disponível</p>
                         </div>
                         <div>
-                            <div class="assent busy"></div>
+                            <div className="assent busy"></div>
                             <p>Indisponível</p>
                         </div>
                 </AssentsInfoContainer>
                 <FormContainer>
-
+                    <form onSubmit={makeReserve}>
+                        <div>
+                            <label>Nome do comprador:</label>
+                            <input required type="text" id="buyerName"></input>
+                        </div>
+                        <div>
+                            <label>CPF do comprador:</label>
+                            <input required type="number" id="buyerName"></input>
+                        </div>
+                        <button type="submit">Reservar assento(s)</button>
+                    </form>
                 </FormContainer>
             </AssentsContainer>
         </>
@@ -80,25 +98,17 @@ const AllAssents = styled.section`
     max-width: 470px;
     align-items: center;
     justify-content: space-evenly;
-    >div{
-        margin: 12px 6px;
-        width:32px;
-        height:32px;
-        border-radius: 100%;
-        background: #C3CFD9;
-        border: solid 1px #808F9D;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-    }
 `
-const Assent = styled.button`
-    margin: 8px
-    border-radius: 50%;
-    width:100%;
-    height:100%;
-    background: none;
-    border-style:none;
+const Assent = styled.div`
+    margin: 8px 6px;
+    width:28px;
+    height:28px;
+    border-radius: 100%;
+    background: #C3CFD9;
+    border: solid 1px #808F9D;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 `
 
 const AssentsInfoContainer = styled.div`
@@ -130,4 +140,35 @@ const AssentsInfoContainer = styled.div`
         border:solid 1px #F7C52B;
     }
 `
-const FormContainer = styled.form``
+const FormContainer = styled.div`
+    width:90%;
+    margin-top:32px;
+    >form{
+        display:flex;
+        flex-direction:column;
+        align-items:left;
+        >div{
+            margin-bottom:16px;
+        }
+        label{
+            display:block;
+            color:#293845;
+            font-size:18px;
+            margin-bottom:8px;
+        }
+        input{
+            height: 50px;
+            width: 313px;
+        }
+        button{
+            width:225px;
+            height:42px;
+            border-radius:6px;
+            border-style:none;
+            background:#E8833A;
+            color:#FFFFFF;
+            font-size: 18px;
+            margin: 16px auto;
+        }
+    }
+`
