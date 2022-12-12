@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import styled from "styled-components"
 import { Link } from "react-router-dom"
+import FooterInfo from "./FooterInfo"
 
 export default function ShowTimes(props){
     const {idMovie} = useParams()
@@ -20,7 +21,6 @@ export default function ShowTimes(props){
         })
         .catch(err => {console.log(err)})
     },[])
-
     return(
         <>  
         <ShowTimesContainer>
@@ -43,9 +43,10 @@ export default function ShowTimes(props){
                     
                     )
                 })
+        
                 ) : (<div>Carregando...</div>)}
         </ShowTimesContainer>
-            
+        <FooterInfo movieInfo={movieInfo}/>
         </>
     )
 }
