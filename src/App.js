@@ -43,6 +43,16 @@ export default function App() {
           />}/>
           <Route path="/sucesso" element={<SuccessScreen
             movieInfo={movieInfo}
+            assents={assents}
+            setAssents={setAssents}
+            movieTime={movieTime}
+            setMovieTime={setMovieTime}
+            selectedAssents={selectedAssents}
+            setSelectedAssents={setSelectedAssents}
+            buyer={buyer}
+            setBuyer={setBuyer}
+            buyerCpf={buyerCpf}
+            setBuyerCpf={setBuyerCpf}
           />}/>
         </Routes>
       

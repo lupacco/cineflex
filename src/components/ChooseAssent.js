@@ -24,29 +24,28 @@ export default function ChooseAssent(props){
         .catch(err => {console.log(err)})
     },[])
     
-    function selectAssent(event){
-        let assentNumber = Number(event.target.textContent)
-        let assentAvaible = event.target.classList.contains('available')
+    function selectAssent(assentAvailable, assentId){
         let newSelectedAssents = []
         //Check if the assent is available
-        if(!assentAvaible){
+        if(!assentAvailable){
             alert("Esse assento não está disponível!")
             return
         }
         //if the assent is not selected we add it to the selectedAssents
-        if(!selectedAssents.includes(assentNumber)){
-            newSelectedAssents = [...selectedAssents, assentNumber]
+        if(!selectedAssents.includes(assentId)){
+            newSelectedAssents = [...selectedAssents, assentId]
         } 
         //if its already selected we remove from selectedAssents
         else{
             for(let i in selectedAssents){
-                if(selectedAssents[i] !== assentNumber){
+                if(selectedAssents[i] !== assentId){
                     newSelectedAssents.push(Number(selectedAssents[i]))
                 }
             }
         }
         //update the state
         setSelectedAssents(newSelectedAssents)
+        console.log(newSelectedAssents)
     }
     
     function handleChangeBuyer(event){
@@ -63,19 +62,6 @@ export default function ChooseAssent(props){
 
     function makeReserve(event){
         event.preventDefault()
-        console.log('---------')
-        console.log(movieInfo)
-        console.log('---------')
-        console.log(movieTime)
-        console.log('---------')
-        console.log(assents)
-        console.log('---------')
-        console.log(selectedAssents)
-        console.log('---------')
-        console.log(buyer)
-        console.log('---------')
-        console.log(buyerCpf)
-        console.log('fim choose assent')
 
         axios.post("https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many", {
             ids:selectedAssents,
@@ -84,8 +70,6 @@ export default function ChooseAssent(props){
             })
         .then(res => {
             console.log(res)
-            console.log("movieTIme -> ")
-            console.log(movieTime)
             navigate("/sucesso")
         })
         .catch(err => console.log(err))
@@ -104,10 +88,10 @@ export default function ChooseAssent(props){
                                         <Assent
                                             data-test="seat"
                                             className={assent.isAvailable ? ("available") : ("")}
-                                            onClick={selectAssent}
+                                            onClick={() => {selectAssent(assent.isAvailable, assent.id)}}
                                             key={assent.id}
                                             isAvailable={assent.isAvailable}
-                                            isSelected={selectedAssents.includes(Number(assent.name))}
+                                            isSelected={selectedAssents.includes(Number(assent.id))}
                                             >
                                                 {assent.name}
                                         </Assent>

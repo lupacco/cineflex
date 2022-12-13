@@ -12,19 +12,10 @@ export default function SuccessScreen(props){
         return navigate("/")
     }
 
-    console.log('---------')
-    console.log(movieInfo)
-    console.log('---------')
-    console.log(movieTime)
-    console.log('---------')
-    console.log(assents)
-    console.log('---------')
-    console.log(selectedAssents)
-    console.log('---------')
-    console.log(buyer)
-    console.log('---------')
-    console.log(buyerCpf)
-    console.log('---------')
+    console.log('Entrou na tela de sucesso')
+    
+
+ 
 
     return (
         <SucessContainer>
@@ -36,14 +27,18 @@ export default function SuccessScreen(props){
             </section>
             <section data-test="seats-info">
                 <h3>Ingressos</h3>
-                <p>Assento A</p>
-                <p>Assento A</p>
-                <p>Assento A</p>
+                {assents.map(ticket => {
+                    if(selectedAssents.includes(ticket.id)){
+                        return (
+                            <p key={ticket.id}>Assento {ticket.name}</p>
+                        )
+                    }
+                })}
             </section>
             <section data-test="client-info">
                 <h3>Comprador</h3>
-                <p>Nome:</p>
-                <p>CPF:</p>
+                <p>Nome: {buyer}</p>
+                <p>CPF: {buyerCpf}</p>
             </section>
             <button data-test="go-home-btn" onClick={goHome} type="submit">Voltar para Home</button>
         </SucessContainer>
@@ -57,9 +52,10 @@ const SucessContainer = styled.div`
     
     >h2{
         margin: 40px auto;
-        color: #293845;
+        color: #247A6B;
         text-align: center;
         font-size: 24px;
+        font-weight: 700;
     }
     >section{
         width:90%;
