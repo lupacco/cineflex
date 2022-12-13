@@ -6,16 +6,13 @@ export default function SuccessScreen(props){
     const navigate = useNavigate()
 
     function goHome(){
+        setMovieTime(undefined) //reset movieTime
+        setAssents([]) //reset assents
         setSelectedAssents([]) //reset selectedAssents
         setBuyer('') //reset buyer input
         setBuyerCpf('') // reset cpf input
-        return navigate("/")
+        return navigate("/") //return to home
     }
-
-    console.log('Entrou na tela de sucesso')
-    
-
- 
 
     return (
         <SucessContainer>
@@ -23,7 +20,7 @@ export default function SuccessScreen(props){
             <section data-test="movie-info">
                 <h3>Filme e sessão</h3>
                 <p>{movieInfo.title}</p>
-                <p>{""} {""}</p>
+                <p>{movieTime.day.date} {movieTime.name}</p>
             </section>
             <section data-test="seats-info">
                 <h3>Ingressos</h3>

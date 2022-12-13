@@ -69,7 +69,7 @@ export default function ChooseAssent(props){
             cpf:buyerCpf
             })
         .then(res => {
-            console.log(res)
+            //console.log(res)
             navigate("/sucesso")
         })
         .catch(err => console.log(err))
