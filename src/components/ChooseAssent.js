@@ -2,6 +2,7 @@ import axios from "axios"
 import { useEffect } from "react"
 import { Link, useNavigate, useParams } from "react-router-dom"
 import styled from "styled-components"
+import Loader from "./Loader"
 
 export default function ChooseAssent(props){
     const {assents, setAssents, movieInfo, movieTime, setMovieTime, selectedAssents,setSelectedAssents, buyer, setBuyer, buyerCpf, setBuyerCpf} = props
@@ -77,7 +78,7 @@ export default function ChooseAssent(props){
     
     return(
         <>
-            <GoBack to={`/sessoes/${movieInfo.id}`}>
+            <GoBack data-test="go-home-header-btn" to={`/sessoes/${movieInfo.id}`}>
                 Voltar
             </GoBack>
             <AssentsContainer>
@@ -140,7 +141,7 @@ export default function ChooseAssent(props){
                         </MovieInfo>
                     </>
                 ) : (
-                    <div>Carregando...</div>
+                    <Loader/>
                 )}
             </AssentsContainer>
         </>

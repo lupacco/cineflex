@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import styled from "styled-components"
 import { Link } from "react-router-dom"
+import Loader from "./Loader";
 
 export default function Home(){
     const moviesURL = 'https://mock-api.driven.com.br/api/v8/cineflex/movies'
@@ -35,7 +36,7 @@ export default function Home(){
                     </section>
                 </MoviesContainer>
             ) : (
-                <h1>Carregando...</h1>
+                <Loader/>
             )}
         </>
     )

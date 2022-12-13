@@ -3,6 +3,7 @@ import { useEffect } from "react"
 import { useParams } from "react-router-dom"
 import styled from "styled-components"
 import { Link } from "react-router-dom"
+import Loader from "./Loader"
 
 export default function ShowTimes(props){
     const {idMovie} = useParams()
@@ -21,7 +22,7 @@ export default function ShowTimes(props){
     },[])
     return(
         <>  
-            <GoBack to="/">
+            <GoBack data-test="go-home-header-btn" to="/">
                 Voltar
             </GoBack>
             <ShowTimesContainer>
@@ -54,7 +55,7 @@ export default function ShowTimes(props){
                             </MovieInfo>
                         </>
                     ) : (
-                        <div>Carregando...</div>
+                        <Loader/>
                     )}
                 </ul>
             </ShowTimesContainer>
