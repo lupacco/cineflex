@@ -211,6 +211,7 @@ const FormContainer = styled.div`
     width:90%;
     margin-top:32px;
     >form{
+        margin-bottom: 16px;
         display:flex;
         flex-direction:column;
         align-items:left;
