@@ -133,7 +133,7 @@ const MovieInfo = styled.div`
 `;
 
 const GoBack = styled(Link)`
-    position: fixed;
+    position: absolute;
     top: 24px;
     left:16px;
     text-decoration: none;

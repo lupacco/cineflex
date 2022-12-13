@@ -149,6 +149,7 @@ export default function ChooseAssent(props){
 }
 
 const AssentsContainer = styled.div`
+    overflow-y: scroll;
     display: flex;
     flex-direction:column;
     align-items: center;
@@ -242,7 +243,7 @@ const FormContainer = styled.div`
     }
 `
 const MovieInfo = styled.div`
-  position: fixed;
+  position: absolute;
   bottom: 0;
   width: 100%;
   height: 117px;
