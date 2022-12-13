@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import styled from "styled-components"
 
 export default function ChooseAssent(props){
-    const {assents, setAssents, movieInfo, movieTime, setMovieTime, selectedAssents,setSelectedAssents} = props
+    const {assents, setAssents, movieInfo, movieTime, setMovieTime, selectedAssents,setSelectedAssents, buyer, setBuyer, buyerCpf, setBuyerCpf} = props
     const {idSession} = useParams()
     const assentsURL = `
     https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSession}/seats`
@@ -23,22 +23,14 @@ export default function ChooseAssent(props){
         })
         .catch(err => {console.log(err)})
     },[])
-
-    // console.log(assents)
-    // console.log(movieTime)
-
-    function makeReserve(event){
-        event.preventDefault()
-        console.log("submiteddddd")
-        navigate("/sucesso")
-    }
+    
     function selectAssent(event){
-        let assentNumber = event.target.textContent
+        let assentNumber = Number(event.target.textContent)
         let assentAvaible = event.target.classList.contains('available')
         let newSelectedAssents = []
         //Check if the assent is available
         if(!assentAvaible){
-            alert("Este assento está indisponível! Selecione outro assento por favor.")
+            alert("Esse assento não está disponível!")
             return
         }
         //if the assent is not selected we add it to the selectedAssents
@@ -49,14 +41,56 @@ export default function ChooseAssent(props){
         else{
             for(let i in selectedAssents){
                 if(selectedAssents[i] !== assentNumber){
-                    newSelectedAssents.push(selectedAssents[i])
+                    newSelectedAssents.push(Number(selectedAssents[i]))
                 }
             }
         }
         //update the state
         setSelectedAssents(newSelectedAssents)
     }
+    
+    function handleChangeBuyer(event){
+        let newBuyerVal = event.target.value
+        setBuyer(newBuyerVal)
+    }
+    
+    function handleChangeCPF(event){
+        let newCpfValue = event.target.value
+        setBuyerCpf(newCpfValue)
+        
+    }
+    
 
+    function makeReserve(event){
+        event.preventDefault()
+        console.log('---------')
+        console.log(movieInfo)
+        console.log('---------')
+        console.log(movieTime)
+        console.log('---------')
+        console.log(assents)
+        console.log('---------')
+        console.log(selectedAssents)
+        console.log('---------')
+        console.log(buyer)
+        console.log('---------')
+        console.log(buyerCpf)
+        console.log('fim choose assent')
+
+        axios.post("https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many", {
+            ids:selectedAssents,
+            name:buyer,
+            cpf:buyerCpf
+            })
+        .then(res => {
+            console.log(res)
+            console.log("movieTIme -> ")
+            console.log(movieTime)
+            navigate("/sucesso")
+        })
+        .catch(err => console.log(err))
+    }
+    
     return(
         <>
             <AssentsContainer>
@@ -68,11 +102,12 @@ export default function ChooseAssent(props){
                                 assents.map(assent => {
                                     return (
                                         <Assent
+                                            data-test="seat"
                                             className={assent.isAvailable ? ("available") : ("")}
                                             onClick={selectAssent}
                                             key={assent.id}
                                             isAvailable={assent.isAvailable}
-                                            isSelected={selectedAssents.includes(assent.name)}
+                                            isSelected={selectedAssents.includes(Number(assent.name))}
                                             >
                                                 {assent.name}
                                         </Assent>
@@ -100,16 +135,16 @@ export default function ChooseAssent(props){
                             <form onSubmit={makeReserve}>
                                 <div>
                                     <label>Nome do comprador:</label>
-                                    <input required type="text" id="buyerName"></input>
+                                    <input data-test="client-name" required value={buyer} onChange={handleChangeBuyer} type="text" id="buyerName"></input>
                                 </div>
                                 <div>
                                     <label>CPF do comprador:</label>
-                                    <input required type="number" id="buyerName"></input>
+                                    <input data-test="client-cpf" required value={buyerCpf} onChange={handleChangeCPF} type="number" id="buyerName"></input>
                                 </div>
-                                <button type="submit">Reservar assento(s)</button>
+                                <button data-test="book-seat-btn" type="submit">Reservar assento(s)</button>
                             </form>
                         </FormContainer>
-                        <MovieInfo>
+                        <MovieInfo data-test="footer">
                             <img alt="" src={movieInfo.posterURL}></img>
                             <div>
                                 <p>{movieInfo.title}</p>

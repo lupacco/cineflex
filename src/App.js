@@ -13,6 +13,8 @@ export default function App() {
   const [movieTime, setMovieTime] = useState(undefined)
   const [assents, setAssents] = useState([])
   const [selectedAssents, setSelectedAssents] = useState([])
+  const [buyer, setBuyer] = useState('')
+  const [buyerCpf, setBuyerCpf] = useState('')
 
   return (
     <BrowserRouter>
@@ -34,6 +36,10 @@ export default function App() {
             setMovieTime={setMovieTime}
             selectedAssents={selectedAssents}
             setSelectedAssents={setSelectedAssents}
+            buyer={buyer}
+            setBuyer={setBuyer}
+            buyerCpf={buyerCpf}
+            setBuyerCpf={setBuyerCpf}
           />}/>
           <Route path="/sucesso" element={<SuccessScreen
             movieInfo={movieInfo}

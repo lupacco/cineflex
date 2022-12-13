@@ -29,12 +29,12 @@ export default function ShowTimes(props){
                         <>
                             {movieInfo.days.map(day => 
                                 (
-                                    <SessionDay key={day.id}>
+                                    <SessionDay data-test="movie-day" key={day.id}>
                                         <h3>{day.weekday} - {day.date}</h3>
                                             <SessionsContainer>
                                                 {day.showtimes.map(time => 
                                                     (
-                                                        <Link key={time.id} to={`/assentos/${time.id}`}>
+                                                        <Link data-test="showtime" key={time.id} to={`/assentos/${time.id}`}>
                                                             <div>{time.name}</div>
                                                         </Link>
                                                     )
@@ -43,7 +43,7 @@ export default function ShowTimes(props){
                                     </SessionDay>
                                 )
                             )}
-                            <MovieInfo>
+                            <MovieInfo data-test="footer">
                                 <img alt="" src={movieInfo.posterURL}></img>
                                 <div>
                                     <p>{movieInfo.title}</p>

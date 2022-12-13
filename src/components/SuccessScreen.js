@@ -2,29 +2,50 @@ import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
 
 export default function SuccessScreen(props){
+    const {assents, setAssents, movieInfo, movieTime, setMovieTime, selectedAssents,setSelectedAssents, buyer, setBuyer, buyerCpf, setBuyerCpf} = props
     const navigate = useNavigate()
-    const {movieInfo} = props
+
+    function goHome(){
+        setSelectedAssents([]) //reset selectedAssents
+        setBuyer('') //reset buyer input
+        setBuyerCpf('') // reset cpf input
+        return navigate("/")
+    }
+
+    console.log('---------')
     console.log(movieInfo)
+    console.log('---------')
+    console.log(movieTime)
+    console.log('---------')
+    console.log(assents)
+    console.log('---------')
+    console.log(selectedAssents)
+    console.log('---------')
+    console.log(buyer)
+    console.log('---------')
+    console.log(buyerCpf)
+    console.log('---------')
+
     return (
         <SucessContainer>
             <h2>Pedido feito com sucesso!</h2>
-            <section>
+            <section data-test="movie-info">
                 <h3>Filme e sessão</h3>
                 <p>{movieInfo.title}</p>
-                <p>Horário</p>
+                <p>{""} {""}</p>
             </section>
-            <section>
+            <section data-test="seats-info">
                 <h3>Ingressos</h3>
                 <p>Assento A</p>
                 <p>Assento A</p>
                 <p>Assento A</p>
             </section>
-            <section>
+            <section data-test="client-info">
                 <h3>Comprador</h3>
                 <p>Nome:</p>
                 <p>CPF:</p>
             </section>
-            <button onClick={() => {navigate("/")}} type="submit">Voltar para Home</button>
+            <button data-test="go-home-btn" onClick={goHome} type="submit">Voltar para Home</button>
         </SucessContainer>
     )
 }
