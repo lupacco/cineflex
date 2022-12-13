@@ -21,6 +21,9 @@ export default function ShowTimes(props){
     },[])
     return(
         <>  
+            <GoBack to="/">
+                Voltar
+            </GoBack>
             <ShowTimesContainer>
                 <h2>Selecione o horário</h2>
 
@@ -127,3 +130,12 @@ const MovieInfo = styled.div`
     }
   }
 `;
+
+const GoBack = styled(Link)`
+    position: fixed;
+    top: 24px;
+    left:16px;
+    text-decoration: none;
+    font-size: 18px;
+    color: #FFFFFF;
+`

@@ -1,6 +1,6 @@
 import axios from "axios"
 import { useEffect } from "react"
-import { useNavigate, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import styled from "styled-components"
 
 export default function ChooseAssent(props){
@@ -77,6 +77,9 @@ export default function ChooseAssent(props){
     
     return(
         <>
+            <GoBack to={`/sessoes/${movieInfo.id}`}>
+                Voltar
+            </GoBack>
             <AssentsContainer>
                 <h2>Selecione o(s) assento(s)</h2>
                 {assentsArrived ? (
@@ -262,3 +265,12 @@ const MovieInfo = styled.div`
     }
   }
 `;
+
+const GoBack = styled(Link)`
+    position: fixed;
+    top: 24px;
+    left:16px;
+    text-decoration: none;
+    font-size: 18px;
+    color: #FFFFFF;
+`
