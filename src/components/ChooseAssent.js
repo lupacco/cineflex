@@ -4,11 +4,10 @@ import { useNavigate, useParams } from "react-router-dom"
 import styled from "styled-components"
 
 export default function ChooseAssent(props){
-    const {movieInfo, movieTime, setMovieTime} = props
+    const {assents, setAssents, movieInfo, movieTime, setMovieTime, selectedAssents,setSelectedAssents} = props
     const {idSession} = useParams()
     const assentsURL = `
     https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSession}/seats`
-    const {assents, setAssents} = props
 
     let assentsArrived = !(assents[0] === undefined)
 
@@ -18,19 +17,42 @@ export default function ChooseAssent(props){
         //rescure assent objects from API
         axios.get(assentsURL)
         .then(response => {
-            setMovieTime(response.data.day)
+            setMovieTime(response.data)
             setAssents(response.data.seats)
 
         })
         .catch(err => {console.log(err)})
     },[])
 
-    console.log(movieTime)
-    console.log(assents)
+    // console.log(assents)
+    // console.log(movieTime)
+
     function makeReserve(event){
         event.preventDefault()
         console.log("submiteddddd")
         navigate("/sucesso")
+    }
+    function selectAssent(event){
+        let assentNumber = event.target.textContent
+        let newSelectedAssents = []
+        console.log(selectedAssents)
+        console.log(selectedAssents.includes(assentNumber))
+        //if the assent is not selected we add it to the selectedAssents
+        if(!selectedAssents.includes(assentNumber)){
+            newSelectedAssents = [...selectedAssents, assentNumber]
+        } 
+        //if its already selected we remove from selectedAssents
+        else{
+            for(let i in selectedAssents){
+                if(selectedAssents[i] !== assentNumber){
+                    newSelectedAssents.push(selectedAssents[i])
+                }
+            }
+        }
+        //update the state
+        setSelectedAssents(newSelectedAssents)
+        console.log('selected assents: '+selectedAssents)
+        // console.log(assentNumber)
     }
 
     return(
@@ -44,8 +66,10 @@ export default function ChooseAssent(props){
                                 assents.map(assent => {
                                     return (
                                         <Assent
+                                            onClick={selectAssent}
                                             key={assent.id}
-                                            selected={assent.isAvailable}
+                                            isAvailable={assent.isAvailable}
+                                            isSelected={selectedAssents.includes(assent.name)}
                                             >
                                                 {assent.name}
                                         </Assent>
@@ -86,7 +110,7 @@ export default function ChooseAssent(props){
                             <img alt="" src={movieInfo.posterURL}></img>
                             <div>
                                 <p>{movieInfo.title}</p>
-                                <p>{`${movieTime.weekday} - ${movieTime.date}`}</p>
+                                <p>{`${movieTime.day.weekday} - ${movieTime.name}`}</p>
                             </div>
                         </MovieInfo>
                     </>
@@ -122,7 +146,7 @@ const Assent = styled.div`
     width:28px;
     height:28px;
     border-radius: 100%;
-    background: #C3CFD9;
+    background: ${props => props.isAvailable ? (props.isSelected ? (`#1AAE9E`) : (`#C3CFD9`)) : `#F7C52B`};
     border: solid 1px #808F9D;
     display:flex;
     align-items:center;

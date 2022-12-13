@@ -12,6 +12,7 @@ export default function App() {
   const [movieInfo, setMovieInfo] = useState(undefined)
   const [movieTime, setMovieTime] = useState(undefined)
   const [assents, setAssents] = useState([])
+  const [selectedAssents, setSelectedAssents] = useState([])
 
   return (
     <BrowserRouter>
@@ -31,6 +32,8 @@ export default function App() {
             setAssents={setAssents}
             movieTime={movieTime}
             setMovieTime={setMovieTime}
+            selectedAssents={selectedAssents}
+            setSelectedAssents={setSelectedAssents}
           />}/>
           <Route path="/sucesso" element={<SuccessScreen
             movieInfo={movieInfo}
