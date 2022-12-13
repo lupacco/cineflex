@@ -34,9 +34,13 @@ export default function ChooseAssent(props){
     }
     function selectAssent(event){
         let assentNumber = event.target.textContent
+        let assentAvaible = event.target.classList.contains('available')
         let newSelectedAssents = []
-        console.log(selectedAssents)
-        console.log(selectedAssents.includes(assentNumber))
+        //Check if the assent is available
+        if(!assentAvaible){
+            alert("Este assento está indisponível! Selecione outro assento por favor.")
+            return
+        }
         //if the assent is not selected we add it to the selectedAssents
         if(!selectedAssents.includes(assentNumber)){
             newSelectedAssents = [...selectedAssents, assentNumber]
@@ -51,8 +55,6 @@ export default function ChooseAssent(props){
         }
         //update the state
         setSelectedAssents(newSelectedAssents)
-        console.log('selected assents: '+selectedAssents)
-        // console.log(assentNumber)
     }
 
     return(
@@ -66,6 +68,7 @@ export default function ChooseAssent(props){
                                 assents.map(assent => {
                                     return (
                                         <Assent
+                                            className={assent.isAvailable ? ("available") : ("")}
                                             onClick={selectAssent}
                                             key={assent.id}
                                             isAvailable={assent.isAvailable}
