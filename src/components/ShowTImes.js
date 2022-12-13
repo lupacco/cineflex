@@ -1,9 +1,8 @@
 import axios from "axios"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useParams } from "react-router-dom"
 import styled from "styled-components"
 import { Link } from "react-router-dom"
-import FooterInfo from "./FooterInfo"
 
 export default function ShowTimes(props){
     const {idMovie} = useParams()
@@ -12,7 +11,6 @@ export default function ShowTimes(props){
     let movieInfoArrived = !(movieInfo === undefined)
 
     const movieTimeURL = `https://mock-api.driven.com.br/api/v8/cineflex/movies/${idMovie}/showtimes`
-
 
     useEffect(() => {
         axios.get(movieTimeURL)
@@ -23,30 +21,40 @@ export default function ShowTimes(props){
     },[])
     return(
         <>  
-        <ShowTimesContainer>
-            <h2>Selecione o horário</h2>
-            {movieInfoArrived ? (
-            movieInfo.days.map(day => {
-                return(
-                    <SessionDay key={day.id}>
-                        <h3>{day.weekday} - {day.date}1</h3>
-                            <SessionsContainer>
-                                {day.showtimes.map(time => {
-                                    return (
-                                        <Link key={time.id} to={`/assentos/${time.id}`}>
-                                            <div>{time.name}</div>
-                                        </Link>
-                                    )
-                                })}
-                            </SessionsContainer>
-                    </SessionDay>
-                    
-                    )
-                })
-        
-                ) : (<div>Carregando...</div>)}
-        </ShowTimesContainer>
-        <FooterInfo movieInfo={movieInfo}/>
+            <ShowTimesContainer>
+                <h2>Selecione o horário</h2>
+
+                <ul>
+                    {movieInfoArrived ? (
+                        <>
+                            {movieInfo.days.map(day => 
+                                (
+                                    <SessionDay key={day.id}>
+                                        <h3>{day.weekday} - {day.date}</h3>
+                                            <SessionsContainer>
+                                                {day.showtimes.map(time => 
+                                                    (
+                                                        <Link key={time.id} to={`/assentos/${time.id}`}>
+                                                            <div>{time.name}</div>
+                                                        </Link>
+                                                    )
+                                                    )}
+                                            </SessionsContainer>
+                                    </SessionDay>
+                                )
+                            )}
+                            <MovieInfo>
+                                <img alt="" src={movieInfo.posterURL}></img>
+                                <div>
+                                    <p>{movieInfo.title}</p>
+                                </div>
+                            </MovieInfo>
+                        </>
+                    ) : (
+                        <div>Carregando...</div>
+                    )}
+                </ul>
+            </ShowTimesContainer>
         </>
     )
 }
@@ -93,3 +101,29 @@ const SessionsContainer = styled.div`
         }
     }
 `
+const MovieInfo = styled.div`
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 117px;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  background: #dfe6ed;
+  color: #9eadba;
+  padding: 0 8px;
+
+  >img{
+    width:64px;
+    height:89px;
+    background:#FFFFFF;
+    padding:8px;
+    margin-right: 24px;
+  }
+  >div{
+    >p{
+        font-size:22px;
+        color:#293845;
+    }
+  }
+`;

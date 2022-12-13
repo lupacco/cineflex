@@ -1,9 +1,10 @@
 import axios from "axios"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import styled from "styled-components"
 
 export default function ChooseAssent(props){
+    const {movieInfo, movieTime, setMovieTime} = props
     const {idSession} = useParams()
     const assentsURL = `
     https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSession}/seats`
@@ -16,12 +17,15 @@ export default function ChooseAssent(props){
         //rescure assent objects from API
         axios.get(assentsURL)
         .then(response => {
-            console.log(response.data.seats)
+            setMovieTime(response.data.day)
             setAssents(response.data.seats)
+
         })
         .catch(err => {console.log(err)})
     },[])
 
+    console.log(movieTime)
+    // console.log(assents)
     function makeReserve(event){
         event.preventDefault()
         console.log("submiteddddd")
@@ -31,50 +35,58 @@ export default function ChooseAssent(props){
     return(
         <>
             <AssentsContainer>
-            <h2>Selecione o(s) assento(s)</h2>
-                <AllAssents>
-                    {assentsArrived ? (
-                        assents.map(assent => {
-                            return (
-                                <Assent
-                                    key={assent.id}
-                                    selected={assent.isAvailable}
-                                    >
-                                        {assent.name}
-                                </Assent>
-                            )
-                        })
-                    ) : (
-                        <h1>Carregando...</h1>
-                    )}
-                </AllAssents>
-                <AssentsInfoContainer>
+                <h2>Selecione o(s) assento(s)</h2>
+
+                    <AllAssents>
+                        {assentsArrived ? (
+                            assents.map(assent => {
+                                return (
+                                    <Assent
+                                        key={assent.id}
+                                        selected={assent.isAvailable}
+                                        >
+                                            {assent.name}
+                                    </Assent>
+                                )
+                            })
+                        ) : (
+                            <h1>Carregando...</h1>
+                        )}
+                    </AllAssents>
+                    <AssentsInfoContainer>
+                            <div>
+                                <div className="assent selected"></div>
+                                <p>Selecionado</p>
+                            </div>
+                            <div>
+                                <div className="assent"></div>
+                                <p>Disponível</p>
+                            </div>
+                            <div>
+                                <div className="assent busy"></div>
+                                <p>Indisponível</p>
+                            </div>
+                    </AssentsInfoContainer>
+                    <FormContainer>
+                        <form onSubmit={makeReserve}>
+                            <div>
+                                <label>Nome do comprador:</label>
+                                <input required type="text" id="buyerName"></input>
+                            </div>
+                            <div>
+                                <label>CPF do comprador:</label>
+                                <input required type="number" id="buyerName"></input>
+                            </div>
+                            <button type="submit">Reservar assento(s)</button>
+                        </form>
+                    </FormContainer>
+                    <MovieInfo>
+                        <img alt="" src={movieInfo.posterURL}></img>
                         <div>
-                            <div className="assent selected"></div>
-                            <p>Selecionado</p>
+                            <p>{movieInfo.title}</p>
+                            <p>{`${movieTime.weekday} - ${movieTime.date}`}</p>
                         </div>
-                        <div>
-                            <div className="assent"></div>
-                            <p>Disponível</p>
-                        </div>
-                        <div>
-                            <div className="assent busy"></div>
-                            <p>Indisponível</p>
-                        </div>
-                </AssentsInfoContainer>
-                <FormContainer>
-                    <form onSubmit={makeReserve}>
-                        <div>
-                            <label>Nome do comprador:</label>
-                            <input required type="text" id="buyerName"></input>
-                        </div>
-                        <div>
-                            <label>CPF do comprador:</label>
-                            <input required type="number" id="buyerName"></input>
-                        </div>
-                        <button type="submit">Reservar assento(s)</button>
-                    </form>
-                </FormContainer>
+                    </MovieInfo>
             </AssentsContainer>
         </>
     )
@@ -172,3 +184,29 @@ const FormContainer = styled.div`
         }
     }
 `
+const MovieInfo = styled.div`
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 117px;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  background: #dfe6ed;
+  color: #9eadba;
+  padding: 0 8px;
+
+  >img{
+    width:64px;
+    height:89px;
+    background:#FFFFFF;
+    padding:8px;
+    margin-right: 24px;
+  }
+  >div{
+    >p{
+        font-size:22px;
+        color:#293845;
+    }
+  }
+`;

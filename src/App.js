@@ -3,14 +3,14 @@ import GlobalStyle from "./components/GlobalStyle";
 
 import Header from "./components/Header"
 import Home from "./components/Home";
-import {BrowserRouter, Route, Routes, Link} from "react-router-dom"
-
-import ShowTimes from "./components/ShowTImes";
+import {BrowserRouter, Route, Routes} from "react-router-dom"
+import ShowTimes from "./components/ShowTimes"
 import ChooseAssent from "./components/ChooseAssent";
 import SuccessScreen from "./components/SuccessScreen";
 
 export default function App() {
   const [movieInfo, setMovieInfo] = useState(undefined)
+  const [movieTime, setMovieTime] = useState(undefined)
   const [assents, setAssents] = useState([])
 
   return (
@@ -26,8 +26,11 @@ export default function App() {
             setMovieInfo={setMovieInfo}
           />}/>
           <Route path="/assentos/:idSession" element={<ChooseAssent
+            movieInfo={movieInfo}
             assents={assents}
             setAssents={setAssents}
+            movieTime={movieTime}
+            setMovieTime={setMovieTime}
           />}/>
           <Route path="/sucesso" element={<SuccessScreen
             movieInfo={movieInfo}
